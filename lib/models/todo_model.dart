@@ -1,20 +1,21 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
-
-part 'todo_model.freezed.dart';
 
 Uuid uuid = const Uuid();
 
-@freezed
-class Todo with _$Todo {
-  const factory Todo({
-    required String id,
-    required String desc,
-    @Default(false) bool completed,
-  }) = _Todo;
+class Todo {
+  String id;
+  String desc;
+  bool completed;
+  Todo({
+    required this.id,
+    required this.desc,
+    this.completed = false,
+  });
 
   factory Todo.add({required String desc}) {
     return Todo(id: uuid.v4(), desc: desc);
   }
+
+  @override
+  String toString() => 'Todo(id: $id, desc: $desc, completed: $completed)';
 }

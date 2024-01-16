@@ -1,31 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/todo_model.dart';
 
-class TodosNotifier extends StateNotifier<List<Todo>> {
-  TodosNotifier() : super([]);
+class TodosNotifier extends ChangeNotifier {
+  List<Todo> todos = [];
 
   void addTodo(String desc) {
-    state = [...state, Todo.add(desc: desc)];
-    // state.add(Todo.add(desc: desc));
-    // print('in addTodo: $state');
+    todos.add(Todo.add(desc: desc));
+    notifyListeners();
   }
 
   void toggleTodo(String id) {
-    state = [
-      for (final todo in state)
-        if (todo.id == id) todo.copyWith(completed: !todo.completed) else todo
-    ];
+    final todo = todos.firstWhere((todo) => todo.id == id);
+    todo.completed = !todo.completed;
+    notifyListeners();
   }
 
   void removeTodo(String id) {
-    state = [
-      for (final todo in state)
-        if (todo.id != id) todo
-    ];
+    todos.removeWhere((todo) => todo.id == id);
+    notifyListeners();
   }
 }
 
-final todosProvider = StateNotifierProvider<TodosNotifier, List<Todo>>((ref) {
+// final todosProvider = ChangeNotifierProvider<TodosNotifier>((ref) {
+final todosProvider = ChangeNotifierProvider.autoDispose<TodosNotifier>((ref) {
   return TodosNotifier();
 });
