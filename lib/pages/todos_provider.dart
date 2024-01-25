@@ -12,6 +12,7 @@ class TodosNotifier extends ChangeNotifier {
   }
 
   void toggleTodo(String id) {
+    // firstWhere: 일치하는 것들 중 첫번째
     final todo = todos.firstWhere((todo) => todo.id == id);
     todo.completed = !todo.completed;
     notifyListeners();
