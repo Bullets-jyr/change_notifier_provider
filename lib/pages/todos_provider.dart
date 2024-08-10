@@ -11,6 +11,7 @@ class TodosNotifier extends ChangeNotifier {
 
   void addTodo(String desc) {
     todos.add(Todo.add(desc: desc));
+    // state가 변했음을 알려줍니다.
     notifyListeners();
   }
 
@@ -18,12 +19,14 @@ class TodosNotifier extends ChangeNotifier {
     // firstWhere: 일치하는 것들 중 첫번째를 찾는다
     final todo = todos.firstWhere((todo) => todo.id == id);
     todo.completed = !todo.completed;
+    // state가 변했음을 알려줍니다.
     notifyListeners();
   }
 
   void removeTodo(String id) {
     // removeWhere: 일치하는 것들 중 첫번째를 삭제한다
     todos.removeWhere((todo) => todo.id == id);
+    // state가 변했음을 알려줍니다.
     notifyListeners();
   }
 }
